@@ -54,8 +54,8 @@ const styles = {
 
 class BarberCard extends Component {
     
-    handleStyleChanged = (selected) => {
-        this.props.onStyleChanged(this.props.Name, selected);
+    handleStyleChanged = (selected,count) => {
+        this.props.onStyleChanged(this.props.Name, selected, count);
     }; 
 
     render() {   

@@ -11,41 +11,129 @@ import IbrahimImg from './ibrahim.jpg';
 import HadiImg from './hadi.jpg';
 
 class MainBody extends Component {
+    /*
+    constructor()
+    {
+        super(); 
+        this.componentDidMount(); 
+        //this.photo(); 
+    }*/
+    componentDidMount() {
+        //const apiUrl = 'http://localhost:5000/api/barbers';
+        let bbrrs = [];
+        fetch("http://localhost:5000/api/barbers/")
+        .then(res => res.json())
+        .then(
+          (result) => {
+            console.log('Hello from method ' + result);
+            bbrrs = result; 
+            console.log('the length of ' + bbrrs.length);
+            let photoFile = [];
+            result.map((b, i) => {
+                
+                    fetch("http://localhost:5000/api/GetPhoto/" + b.BarberID).
+                    then(response => {
+                        response.blob().then(blobResponse => {
+                            photoFile[i] = URL.createObjectURL(blobResponse);
+                            this.setState({Photo: photoFile}); 
+                            console.log('Hello from photo' + blobResponse);
+                        })
+                    });
+            });
+            this.setState({
+                RealBarbers: result,
+            });
+          }
+        );
+        /*
+        let photoFile = []; 
+        console.log(this.state.RealBarbers.length + ' ' + bbrrs.length);
+        this.state.RealBarbers.map((barber, i) => {
+            fetch("http://localhost:5000/api/GetPhoto/" + barber.BarberID).
+            then(response => {
+                response.blob().then(blobResponse => {
+                    photoFile[i] = URL.createObjectURL(blobResponse);
+                    this.setState({Photo: photoFile}); 
+                    console.log('Hello from photo' + blobResponse);
+                })
+            });
+        });   
+        */  
+        
+        //jjj.then((response) => response.json());  //.then((data) => console.log('This is your data', data));
+          //fetch('http://localhost:5000/api/barbers', { mode: 'no-cors' })
+            //.then(res => res.json()).then(res => {console.log(res);});
+          //console.log(jjj.data);
+    }
+    
     state = { 
+        /*
         BarberCards: [
-            {Name: 'Dean', ImSource: DeanImg, Description: 'The best barber in town', Selected: false }, 
-            {Name: 'Jeo', ImSource: JoeImg, Description: 'The best barber in town', Selected: false }, 
-            {Name: 'William', ImSource: WilliamImg, Description: 'The best barber in town', Selected: false }, 
-            {Name: 'Ibrahim', ImSource: IbrahimImg, Description: 'The best barber in town', Selected: false }, 
-            {Name: 'Hadi', ImSource: HadiImg, Description: 'The best barber in town', Selected: false }, 
-        ], 
-        BarberCards1: []
+            { Name: 'Dean', ImSource: DeanImg, Description: 'The best barber in town', Selected: false, Count: 0 }, 
+            { Name: 'Jeo', ImSource: JoeImg, Description: 'The best barber in town', Selected: false, Count: 0 }, 
+            { Name: 'William', ImSource: WilliamImg, Description: 'The best barber in town', Selected: false, Count: 0 }, 
+            { Name: 'Ibrahim', ImSource: IbrahimImg, Description: 'The best barber in town', Selected: false, Count: 0 }, 
+            { Name: 'Hadi', ImSource: HadiImg, Description: 'The best barber in town', Selected: false, Count: 0 }, 
+        ], */
+        BarberCards1: [], 
+        RealBarbers: [], 
+        RealBarbers1: [], 
+        Photo: []
     }
 
-    handleID = (Name, Bool) => {
-        console.log('Style Changed!', Bool);
+    handleID = (Name, Bool, count) => {
+        console.log('Style Changed!', Bool, count);
+        /*
         this.state.BarberCards.forEach(barbercard => {
             if(barbercard.Name == Name) {
-                const rec = {Name: barbercard.Name, ImSource: barbercard.ImSource, Description: barbercard.Description, Selected: Bool};
+                const rec = {Name: barbercard.Name, ImSource: barbercard.ImSource, Description: barbercard.Description, Selected: Bool, Count: barbercard.count};
                 this.state.BarberCards1 = [...this.state.BarberCards1, rec];
             }
             else {
                 this.state.BarberCards1 = [...this.state.BarberCards1, barbercard];
             }
         });
-        this.setState({ BarberCards: this.state.BarberCards1 });
-        this.setState({ BarberCards1: [] });
+        */
+        this.state.RealBarbers.forEach(barbercard => {
+            if(barbercard.Name == Name) {
+                const rec = {BarberID: barbercard.BarberID, Name: barbercard.Name, ImSource: this.state.Photo[1], Description: barbercard.About, Selected: Bool, Count: barbercard.count};
+                this.state.RealBarbers1 = [...this.state.RealBarbers1, rec];
+            }
+            else {
+                this.state.RealBarbers1 = [...this.state.RealBarbers1, barbercard];
+            }
+        });
+        this.setState({ RealBarbers: this.state.RealBarbers1 });
+        this.setState({ RealBarbers1: [] });
     }
 
-    render() {        
+    handleSubmission = () => {
+        console.log('submission handled!');
+    }
+
+    render() {  
+        // this.fetchPhotos();           
         return (
+            //this.componentDidMount(),
+            //this.photo(),  
             <div>
                 <Banner />
                 <CardContainer>
-                    { this.state.BarberCards.map(barbercard => 
-                        <BarberCard key={barbercard.Name} Name={barbercard.Name} ImSource={barbercard.ImSource} 
-                            Description={barbercard.Description} Selected={barbercard.Selected} onStyleChanged={this.handleID} />)}
+                    { this.state.RealBarbers.map((barbercard, i) => 
+                        
+                        <BarberCard key={barbercard.Name} Name={barbercard.Name} ImSource={this.state.Photo[i]} 
+                            Description='' Selected={barbercard.Selected} 
+                            onStyleChanged={this.handleID} />)}
                 </CardContainer>
+                
+                <div style={{margin:10, display: 'flex', alignItems: 'center', justifyContent: 'center', width:'100%'}}>
+                    <button style={{width:'20%'}} className='btn btn-secondary btn-sm' onClick={this.handleSubmission}>Book now</button>
+                </div>
+
+                <div>
+                    {this.state.RealBarbers.map(b => <p>{b.Name}</p>)}
+                    
+                </div>
             </div>
         );
     }

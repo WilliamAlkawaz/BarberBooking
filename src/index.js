@@ -9,7 +9,7 @@ import MainBody from './components/MainBody';
 
 ReactDOM.render(
   <React.StrictMode>
-    <MainBody />
+    <MainBody />    
   </React.StrictMode>,
   document.getElementById('root')
 );

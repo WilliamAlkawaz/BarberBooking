@@ -8,20 +8,20 @@ class Counter extends Component {
 
     handleIncrement = () => {
         this.setState({ count: this.state.count + 1 });
-        this.props.onStyleChanged(true); 
+        this.props.onStyleChanged(true,this.state.count+1); 
     }
 
     handleDecrement = () => {
         if(this.state.count <= 0) {
             this.setState({ count: 0 });
-            this.props.onStyleChanged(false); 
+            this.props.onStyleChanged(false,0); 
         }
         else {
             this.setState({ count: this.state.count - 1 });
             if((this.state.count-1)<=0)    
-                this.props.onStyleChanged(false); 
+                this.props.onStyleChanged(false,0); 
             else
-                this.props.onStyleChanged(true); 
+                this.props.onStyleChanged(true,this.state.count-1); 
         }
         
     }
