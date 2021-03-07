@@ -45,36 +45,10 @@ class MainBody extends Component {
             });
           }
         );
-        /*
-        let photoFile = []; 
-        console.log(this.state.RealBarbers.length + ' ' + bbrrs.length);
-        this.state.RealBarbers.map((barber, i) => {
-            fetch("http://localhost:5000/api/GetPhoto/" + barber.BarberID).
-            then(response => {
-                response.blob().then(blobResponse => {
-                    photoFile[i] = URL.createObjectURL(blobResponse);
-                    this.setState({Photo: photoFile}); 
-                    console.log('Hello from photo' + blobResponse);
-                })
-            });
-        });   
-        */  
         
-        //jjj.then((response) => response.json());  //.then((data) => console.log('This is your data', data));
-          //fetch('http://localhost:5000/api/barbers', { mode: 'no-cors' })
-            //.then(res => res.json()).then(res => {console.log(res);});
-          //console.log(jjj.data);
     }
     
     state = { 
-        /*
-        BarberCards: [
-            { Name: 'Dean', ImSource: DeanImg, Description: 'The best barber in town', Selected: false, Count: 0 }, 
-            { Name: 'Jeo', ImSource: JoeImg, Description: 'The best barber in town', Selected: false, Count: 0 }, 
-            { Name: 'William', ImSource: WilliamImg, Description: 'The best barber in town', Selected: false, Count: 0 }, 
-            { Name: 'Ibrahim', ImSource: IbrahimImg, Description: 'The best barber in town', Selected: false, Count: 0 }, 
-            { Name: 'Hadi', ImSource: HadiImg, Description: 'The best barber in town', Selected: false, Count: 0 }, 
-        ], */
         BarberCards1: [], 
         RealBarbers: [], 
         RealBarbers1: [], 
